@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Smart Tip & Split Calculator</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+max-width: 400px;
+margin: 30px auto;
+border: 1px solid #ccc;
+padding: 20px;
+border-radius: 8px;
+}
+h1 {
+text-align: center;
+}
+label {
+display: block;
+margin-top: 12px;
+font-weight: bold;
+}
+input {
+width: 100%;
+padding: 8px;
+margin-top: 4px;
+}
+#resultsBox {
+margin-top: 20px;
+background-color: #f5f5f5;
+padding: 15px;
+border-radius: 6px;
+}
+#errorMsg {
+color: red;
+font-weight: bold;
+margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<h1>Smart Tip & Split Calculator</h1>
+<label>Bill Amount ($):</label>
+<input id="billInput" type="number" placeholder="e.g. 64.50" />
+<label>Tip (%):</label>
+<input id="tipInput" type="number" placeholder="e.g. 18" />
+<label>Number of People:</label>
+<input id="peopleInput" type="number" placeholder="e.g. 3" />
+<button id="calcBtn">Calculate</button>
+<div id="errorMsg"></div>
+<div id="resultsBox">
+<p>Tip Amount: $<span id="tipAmount">0.00</span></p>
+<p>Total With Tip: $<span id="totalWithTip">0.00</span></p>
+<p>Per Person: $<span id="perPerson">0.00</span></p>
+</div>
+<script type="text/javascript">
+// STEP 1: Get values from the input boxes
+// STEP 2: Do the math
+// STEP 3: Put results back into the page (DOM)
+function calculateTotals() {
+// 1. Read the input values
+var bill = parseFloat( document.getElementById("billInput").value );
+var tipPercent = parseFloat( document.getElementById("tipInput").value );
+var people = parseInt( document.getElementById("peopleInput").value );
+// 2. Validate input
+// If bill is NaN, or tipPercent is NaN, or people < 1 -> show error and stop
+if ( isNaN(bill) || isNaN(tipPercent) || isNaN(people) || people < 1 ) {
+document.getElementById("errorMsg").innerHTML = "Please enter valid numbers. People must be at least 1.";
+return;
+} else {
+document.getElementById("errorMsg").innerHTML = "";
+}
+// 3. Math section
+// tipAmount = bill * (tipPercent / 100)
+var tipAmount = bill * ( tipPercent / 100 );
+// totalWithTip = bill + tipAmount
+var totalWithTip = bill + tipAmount;
+// perPerson = totalWithTip / people
+var perPerson = totalWithTip / people;
+// 4. Display results on the page
+document.getElementById("tipAmount").innerHTML = tipAmount.toFixed(2);
+document.getElementById("totalWithTip").innerHTML = totalWithTip.toFixed(2);
+document.getElementById("perPerson").innerHTML = perPerson.toFixed(2);
+}
+// Connect the button to the function
+document.getElementById("calcBtn").addEventListener("click", calculateTotals);
+</script>
+</body>
+</html>
